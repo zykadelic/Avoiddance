@@ -25,10 +25,6 @@ func _process(delta):
 		$AnimatedSprite.play()
 	else:
 		$AnimatedSprite.stop()
-
-	position += velocity * delta
-	position.x = clamp(position.x, 0, screen_size.x)
-	position.y = clamp(position.y, 0, screen_size.y)
 	
 	if velocity.x != 0:
 		$AnimatedSprite.animation = "walk"
@@ -37,6 +33,18 @@ func _process(delta):
 	elif velocity.y != 0:
 		$AnimatedSprite.animation = "up"
 		$AnimatedSprite.flip_v = velocity.y > 0
+
+	position += velocity * delta
+#	position.x = clamp(position.x, 0, screen_size.x)
+#	position.y = clamp(position.y, 0, screen_size.y)
+	if position.x < 0:
+		position.x = screen_size.x
+	if position.x > screen_size.x:
+		position.x = 0
+	if position.y < 0:
+		position.y = screen_size.y
+	if position.y > screen_size.y:
+		position.y = 0
 
 func _on_Player_body_entered(body):
 	hide()
